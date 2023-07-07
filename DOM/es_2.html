@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <title>Document</title>
+</head>
+<body>
+
+    <section class="bg-blue-800 flex flex-col justify-center items-center h-screen">
+        <div class="flex flex-col justify-center gap-2">
+            <h1 class="text-white text-2xl">Cerca un Pokemon</h1>
+            <div class="rounded p-2 w-[400px] bg-white flex flex-row">
+                <input type="text" class="outline-none flex grow" placeholder="Cerca un pokemon" id="input">
+                <button class="bg-red-600 text-white text-xs rounded px-2" id="bottoneCerca">
+                    Cerca
+                </button>
+            </div>
+            <div id="schedaPokemon" class="flex flex-row gap-5 p-2 bg-red-600 rounded hidden">
+                <div class="p-3 bg-slate-100 rounded w-1/3"></div>
+                <!-- scheda pokemon -->
+                <div class="bg-slate-100 rounded w-2/3 p-3" id="">
+                    <h3 class="mb-2">Info Pokemon</h3>
+                    <ul id="elencoInfo" class="flex flex-col gap-2">
+
+                    </ul>
+                </div>
+            </div>
+            <!-- errore pokemon non trovato -->
+            <div id="errore" class="hidden p-2 bg-white rounded">pokemon non trovato</div>
+        </div>
+    </section>
+
+<script>
+
+    let nomePokemon = "ditto"
+    let infoPokemon = {}
+    const btn = document.getElementById('bottoneCerca')
+    const input = document.getElementById('input')
+    const elenco = document.getElementById('elencoInfo')
+    const schedaPokemon = document.getElementById('schedaPokemon')
+    const errore = document.getElementById('errore')
+
+    function cercaPokemon(pokemon) {
+        // fetch("https://pokeapi.co/api/v2/pokemon/" + nomePokemon)
+        // .then((response) => response.json())
+        // .then((json) => {
+        //   	infoPokemon = json;
+        //       stampaPokemon()
+        //   });
+
+          fetch("https://pokeapi.co/api/v2/pokemon/" + nomePokemon.toLocaleLowerCase())
+            .then(response => {
+                if (!response.ok) {
+                throw new Error('HTTP request failed');
+                
+                }
+                return response.json();
+            })
+            .then(data => {
+                infoPokemon = data;
+                stampaPokemon()
+            })
+            .catch(error => {
+                console.error(error);
+                schedaPokemon.classList.add('hidden')
+                errore.classList.remove('hidden')
+            });
+    } 
+
+    function stampaPokemon() {
+        setTimeout(() => {
+            schedaPokemon.classList.remove('hidden')
+            errore.classList.add('hidden')
+            let arrayPokemon = [['id', infoPokemon.id], ['nome', infoPokemon.name], ['altezza', infoPokemon.height], ['peso', infoPokemon.weight]]
+            arrayPokemon.forEach(el => {
+                let li = document.createElement('li')
+                li.classList.add('text-xs', 'p-1', 'rounded', 'bg-blue-600', 'text-white');
+                li.innerHTML = el[0] + ': ' + el[1]
+                elenco.appendChild(li)
+            })
+        }, 2000
+            
+        )
+    }
+
+
+    btn.addEventListener('click', () => {
+        nomePokemon = input.value;
+        cercaPokemon(nomePokemon);
+    })
+
+
+</script>
+</body>
+</html>

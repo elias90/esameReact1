@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <title>Document</title>
+</head>
+<body>
+
+    <section class="p-3">
+        <h1 class="text-4xl mb-20">Esercizio1</h1>
+        <div class="flex flex-col items-start gap-2">
+            <h3 class="text-xl">Elenco degli studenti</h3>
+            <ul id="elenco" class="p-2 bg-slate-100 rounded">
+            </ul>
+            <div>
+                <button class="p-2 bg-green-700 rounded text-xs text-white" id="migliore">Dal migliore</button>
+                <button class="p-2 bg-red-700 rounded text-xs text-white" id="peggiore"> Dal peggiore</button>
+            </div>
+        </div>
+    </section>
+    
+
+<script>
+        let json = `[
+        {"id": 1, "fullname": "mario rossi", "avg": 6},
+        {"id": 2, "fullname": "luigi verdi", "avg": 4},
+        {"id": 3, "fullname": "peach pink", "avg": 8},
+        {"id": 4, "fullname": "wario rossi", "avg": 9}
+        ]`;
+
+        const arrayJson = JSON.parse(json);
+
+        let arrayDiArray = arrayJson.map(obj => Object.values(obj));
+
+        const elenco = document.getElementById("elenco")
+        const migliore = document.getElementById("migliore")
+        const peggiore = document.getElementById("peggiore")
+
+        // function ordinaMigliore(arr) {
+        //     arr.sort(function(b, a) {
+        //             return a[2] - b[2];
+        //     });
+        // }
+
+        // function ordinaPeggiore(arr) {
+        //     arr.sort(function(a, b) {
+        //             return a[2] - b[2];
+        //     });
+        // }
+
+        function ordina(val, arr) {
+            if (val == 'maggiore') {
+                    arr.sort(function(b, a) {
+                        return a[2] - b[2];
+                });
+            } else {
+                arr.sort(function(a, b) {
+                    return a[2] - b[2];
+            });
+            }
+        }
+
+        function removeChild (elenco) {
+            while(elenco.firstChild) {
+                elenco.removeChild(elenco.firstChild)
+            }
+        }
+
+        migliore.addEventListener('click', () => {
+            removeChild(elenco)
+            ordina('maggiore', arrayDiArray)
+            stampaElementi()
+            
+        })
+
+        peggiore.addEventListener('click', () => {
+            removeChild(elenco)
+            ordina('peggiore', arrayDiArray)
+            stampaElementi()
+            
+        })
+
+        function stampaElementi() {
+            arrayDiArray.forEach(el => {
+            let li = document.createElement("li")
+            li.innerHTML = el[0] + '. ' + el[1] + ': ' + el[2]
+            elenco.appendChild(li)
+            });
+        }
+
+        stampaElementi()
+
+
+
+</script>
+</body>
+</html>

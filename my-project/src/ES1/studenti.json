@@ -1,0 +1,8 @@
+[
+     {"id": 1, "fullname": "mario rossi", "avg": 6, "gender": "m"},
+     {"id": 2, "fullname": "luigi verdi", "avg": 4, "gender": "m"},
+     {"id": 3, "fullname": "peach pink", "avg": 8, "gender": "f"},
+     {"id": 4, "fullname": "wario rossi", "avg": 9, "gender": "m"},
+     {"id": 5, "fullname": "daisy princess", "avg": 10, "gender": "f"},
+     {"id": 6, "fullname": "daisy white", "avg": 10, "gender": "f"}
+]
